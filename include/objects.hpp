@@ -29,7 +29,6 @@
 //
 // Library header files
 //
-#include "details/pointer.hpp"
 #include "details/objects.hpp"
 
 #endif // !OBJECTS_HPP_INCLUDED
