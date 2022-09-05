@@ -1,6 +1,8 @@
 #ifndef OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED
 #define OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED
 
+#include "common.hpp"
+
 
 /**
  * @brief Basic internal macro for interface declaration. One shouldn't use it
@@ -15,6 +17,8 @@
     /* iidof implementation */                                          \
     inline constexpr obj::iid_t iidof_impl(const Iface*) noexcept       \
     { return IID_ ## Iface; }                                           \
+    /* Pointer specialisation */                                        \
+    using Iface ## Ptr = obj::SmartPtr<Iface>;                          \
     /* Interface itself */                                              \
     struct Iface
 
@@ -25,7 +29,7 @@
  * 
  * OBJECTS_INTERFACE(IMyInterface, obj::IObject)
  * {
- *     OBJECTS_INTERFACE_METHOD(void, DoSomething)() noexcept OBJECTS_PURE;
+ *     OBJECTS_INTERFACE_METHOD_DECL(void, DoSomething)() noexcept OBJECTS_PURE;
  * };
  * 
  */
@@ -38,7 +42,23 @@
  * example look at OBJECTS_INTERFACE macro description.
  * 
  */
-#define OBJECTS_INTERFACE_METHOD(ret, name) virtual ret name
+#define OBJECTS_INTERFACE_METHOD_DECL(ret, name) virtual ret name
+
+
+/**
+ * @brief Macro, that helps to implement interface methods. 
+ * Usage example:
+ * 
+ * class Impl : public IMyInterface
+ * {
+ *     OBJECTS_INTERFACE_METHOD(void, DoSomething)() noexcept override
+ *     {
+ *         std::cout << "Doing work...\n";
+ *     }
+ * };
+ * 
+ */
+#define OBJECTS_INTERFACE_METHOD(ret, name) ret name
 
 
 /**
@@ -51,35 +71,6 @@
 
 
 namespace obj {
-
-/**
- * @brief Interface identifier type. Actually interface 
- * identifier is just its name.
- * 
- */
-using iid_t = const char*;
-
-
-/**
- * @brief Returns an interface identifier
- * 
- * This function (and implementations) intentionally violates 
- * naming convention to be more consistent with sizeof, __uuidof
- * and some other operators.
- * 
- * @tparam iface Interface which identifier to return of
- * @return iid_t Interface identifier
- * 
- */
-template<typename Iface>
-inline constexpr iid_t iidof() noexcept 
-{
-    //
-    // Just call an implementation. It will be found via ADL.
-    //
-
-    return iidof_impl(static_cast<const Iface *>(nullptr));
-}
 
 
 /**
@@ -98,7 +89,7 @@ OBJECTS_INTERFACE_INTERNAL(IObject)
      * @brief Increments reference counter associated with an object.
      * 
      */
-    OBJECTS_INTERFACE_METHOD(void, Acquire)() noexcept OBJECTS_PURE;
+    OBJECTS_INTERFACE_METHOD_DECL(void, Acquire)() noexcept OBJECTS_PURE;
 
     /**
      * @brief Decrements reference counter associated with an object.
@@ -107,7 +98,7 @@ OBJECTS_INTERFACE_INTERNAL(IObject)
      * 
      * @return true if object is still alive and false otherwise.
      */
-    OBJECTS_INTERFACE_METHOD(bool, Release)() noexcept OBJECTS_PURE;
+    OBJECTS_INTERFACE_METHOD_DECL(bool, Release)() noexcept OBJECTS_PURE;
 
     /**
      * @brief 
@@ -117,7 +108,7 @@ OBJECTS_INTERFACE_INTERNAL(IObject)
      * If the interface cannot be queried, return value is zero.
      * 
      */
-    OBJECTS_INTERFACE_METHOD(IObject*, Query)(const iid_t target_iid) noexcept OBJECTS_PURE; 
+    OBJECTS_INTERFACE_METHOD_DECL(obj::IObject*, Query)(const obj::iid_t target_iid) noexcept OBJECTS_PURE; 
 };
 
 } // namespace obj

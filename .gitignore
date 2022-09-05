@@ -4,3 +4,7 @@
 
 # Some files with known names
 .DS_Store
+
+# Some directories
+.vscode
+build
