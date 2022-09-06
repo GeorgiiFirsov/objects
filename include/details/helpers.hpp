@@ -124,81 +124,92 @@ private:
  * @brief Helper, that implements internal logic for Query method.
  * 
  * @tparam Ty actual type of an object
- * @tparam Ifaces list of all interfaces, that Ty is inherited from
+ * @tparam Iface first inherited interface
+ * @tparam Ifaces list of all the rest interfaces, that Ty is inherited from
  */
-template<typename Ty, typename... Ifaces>
-class ObjectBase
+template<typename Ty, typename Iface, typename... Ifaces>
+class ObjectBase 
 {
-    static_assert(!std::disjunction_v<std::is_same<obj::IObject, Ifaces>...>,
+    static_assert(!std::disjunction_v<std::is_same<obj::IObject, Iface>, std::is_same<obj::IObject, Ifaces>...>,
         "[ObjectBase]: obj::IObjects should not appear in the list of inherited interfaces");
 
     //
-    // Number of inherited interfaces (+1 for obj::IObject)
+    // Number of inherited interfaces
     //
+    static constexpr size_t kIfacesCount = \
+        sizeof...(Ifaces) +     /* Variadic pack */
+        1 +                     /* First template argument */
+        1;                      /* obj::IObjects */
 
-    static constexpr size_t kIfacesCount = sizeof...(Ifaces) + 1;
-
-private:
+    //
+    // Interface info
+    //
     struct IfaceInfo final
     {
         obj::iid_t     iid;
         std::ptrdiff_t offset;
     };
 
-public:
-    obj::IObject* QueryInternal(Ty* object, const obj::iid_t target_iid) noexcept
+protected:
+	virtual ~ObjectBase() = default;
+
+	obj::IObject* QueryInternal(Ty* object, const obj::iid_t target_iid) noexcept 
     {
-        static const auto infos = Initialize();
+		static const auto infos = Initialize();
 
-        for (size_t idx = 0; idx < kIfacesCount; ++idx)
+ 		for (size_t idx = 0; idx < kIfacesCount; ++idx) 
         {
-            if (0 == std::strcmp(target_iid, infos[idx].iid)) {
-                return IfaceFromOffset(object, infos[idx].offset);
+			if (0 == std::strcmp(target_iid, infos[idx].iid)) {
+				return IfaceFromOffset(object, infos[idx].offset);
             }
-        }
+		}
 
-        return nullptr;
-    }
+		return nullptr;
+	}
 
 private:
-    template<typename Iface>
-    static std::ptrdiff_t Offset() noexcept
+	template<typename Iface2>
+	static std::ptrdiff_t Offset() noexcept 
     {
         //
         // Taken from COM implementation
         //
 
         static constexpr auto magic = 8;
-        const auto temp = static_cast<Iface*>(reinterpret_cast<Ty*>(magic));
+        const auto temp = static_cast<Iface2*>(reinterpret_cast<Ty*>(magic));
 
-        return reinterpret_cast<unsigned char*>(temp) - reinterpret_cast<unsigned char*>(magic);
-    }
+		return reinterpret_cast<unsigned char*>(temp) - reinterpret_cast<unsigned char*>(magic);
+	}
 
-    static obj::IObject* IfaceFromOffset(Ty* object, std::ptrdiff_t offset) noexcept
+	static obj::IObject* IfaceFromOffset(Ty* object, std::ptrdiff_t offset) noexcept 
     {
         return reinterpret_cast<obj::IObject*>(reinterpret_cast<unsigned char*>(object) + offset);
-    }
+	}
 
-    template<std::size_t IfacesCount>
-    static void InitializeImpl(IfaceInfo (&)[kIfacesCount]) noexcept
+	template<std::size_t IfacesCount>
+	static void InitializeImpl(IfaceInfo (&)[IfacesCount]) noexcept
     { }
 
-    template<std::size_t IfacesCount, typename Iface, typename... Ifaces2>
-    static void InitializeImpl(IfaceInfo (& infos)[kIfacesCount]) noexcept
+	template<std::size_t IfacesCount, typename Iface2, typename... Ifaces2>
+	static void InitializeImpl(IfaceInfo (& infos)[IfacesCount]) noexcept
     {
-        infos[kIfacesCount - sizeof...(Ifaces2) - 1] = { obj::iidof<Iface>(), Offset<Iface>() };
-        InitializeImpl<IfacesCount, Ifaces2...>(infos);
-    }
+		infos[kIfacesCount - sizeof...(Ifaces2) - 1] = { obj::iidof<Iface2>(), Offset<Iface2>() };
+		InitializeImpl<IfacesCount, Ifaces2...>(infos);
+	}
 
-    static IfaceInfo* Initialize()
+	static const IfaceInfo* Initialize() noexcept
     {
-        static IfaceInfo infos[kIfacesCount];
+		static IfaceInfo infos[kIfacesCount];
 
-        infos[0] = { obj::iidof<obj::IObject>(), Offset<obj::IObject>() };
-        InitializeImpl<kIfacesCount, Ifaces...>(infos);
-
-        return infos;
-    }
+        //
+        // For obj::IObject Offset is calculated as Iface's offset
+        // Actually Iface should inherit it, so it will not be a problem
+        //
+		infos[0] = { obj::iidof<obj::IObject>(), Offset<Iface>() };
+		InitializeImpl<kIfacesCount, Iface, Ifaces...>(infos);
+        
+		return infos;
+	}
 };
 
 } // namespace hlp

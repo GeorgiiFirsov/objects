@@ -40,7 +40,7 @@ public:
     template<typename OtherIface, typename = std::enable_if_t<
         !std::is_same_v<Iface, OtherIface>>>
     SmartPtr(const SmartPtr<OtherIface>& other) noexcept
-        : pointer_(other ? static_cast<Iface>(other.QueryUnsafe(iidof())) : nullptr) 
+        : pointer_(other ? static_cast<Iface*>(other->Query(iidof())) : nullptr) 
     { }
 
     template<typename OtherIface, typename std::enable_if_t<
@@ -110,26 +110,20 @@ public:
         return *this;
     }
 
-    Iface* operator->() 
+    Iface* operator->() const
     { 
         ValidatePointer("[obj::SmartPtr::operator->]: null interface pointer");
         return pointer_; 
     }
-    
-    const Iface* operator->() const 
-    { 
-        ValidatePointer("[obj::SmartPtr::operator-> const]: null interface pointer" );
-        return pointer_; 
-    }
 
-    operator Iface*() noexcept { return pointer_; }
-    operator const Iface*() const noexcept { return pointer_; }
-
-    operator Iface**() noexcept
+    Iface** operator&() noexcept
     {
         ReleaseInternal();
         return &pointer_;
     }
+
+    operator Iface*() noexcept { return pointer_; }
+    operator const Iface*() const noexcept { return pointer_; }
 
     operator bool() const noexcept { return pointer_; }
 
