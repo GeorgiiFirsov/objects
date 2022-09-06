@@ -13,7 +13,7 @@ and include the framework as follows:
 
 Nothing else is required.
 
-## Examples
+## Example
 
 ```cpp
 //
@@ -147,3 +147,13 @@ int main()
 ```
 
 More examples you can find in so named folder.
+
+## TODO
+
+These features are in progress. They will be implemented in future releases.
+
+- Non-atomic reference counter
+- Support for automatic objects (with automatic storage duration)
+- Single header generator
+- More examples
+- Tests and CI
