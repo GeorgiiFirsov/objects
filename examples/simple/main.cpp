@@ -1,5 +1,7 @@
 #include <iostream>
 #include <memory>
+#include <cassert>
+
 #include "objects.hpp"
 
 
@@ -57,11 +59,24 @@ int main()
     auto simple1 = Simple1::Create();
     simple1->Greet();
 
-    IHelloPtr hello = simple1;
-    hello->Hello();
+    //
+    // An object under simple1 implements IHello too,
+    // so it is possible to use it via IHello interface.
+    //
+    
+    IHelloPtr hello1 = simple1;
+    hello1->Hello();
 
     auto simple2 = Simple2::Create();
     simple2->Greet();
+
+    //
+    // An object under simple2 doesn't implement IHello interface,
+    // so the following pointer will be equal to nullptr.
+    //
+
+    IHelloPtr hello2 = simple2;
+    assert(!hello2);
 
     return 0;
 }
