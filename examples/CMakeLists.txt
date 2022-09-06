@@ -17,4 +17,3 @@ set(COMMON_HEADER_FILES ${OBJECTS_DIRECTORY}/objects.hpp)
 # List of executables
 #
 add_subdirectory(simple)
-#add_subdirectory(streams)
