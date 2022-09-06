@@ -21,7 +21,7 @@ class Simple1
     , public IHello
 {
 public:
-    static ISimplePtr Create() { return ISimplePtr(obj::hlp::DynamicObject<Simple1>::Create()); }
+    static ISimplePtr Create() { return ISimplePtr{ obj::hlp::DynamicObject<Simple1>::Create() }; }
 
     //
     // ISimple
@@ -42,7 +42,7 @@ class Simple2
     , public ISimple
 {
 public:
-    static ISimplePtr Create() { return ISimplePtr(obj::hlp::DynamicObject<Simple2>::Create()); }
+    static ISimplePtr Create() { return ISimplePtr{ obj::hlp::DynamicObject<Simple2>::Create() }; }
 
     //
     // ISimple

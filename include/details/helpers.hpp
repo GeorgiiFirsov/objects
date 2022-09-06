@@ -67,7 +67,7 @@ public:
     template<typename... Tys>
     static DynamicObject<Ty>* Create(Tys&&... args) 
     {
-        return new DynamicObject<Ty>(std::forward<Tys>(args)...);
+        return new DynamicObject<Ty>{ std::forward<Tys>(args)... };
     }
 
     //

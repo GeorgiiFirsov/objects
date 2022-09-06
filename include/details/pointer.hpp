@@ -30,7 +30,7 @@ public:
 
 public:
     SmartPtr() noexcept
-        : pointer_(nullptr)
+        : pointer_{ nullptr }
     { }
 
     SmartPtr(std::nullptr_t) noexcept
@@ -40,13 +40,13 @@ public:
     template<typename OtherIface, typename = std::enable_if_t<
         !std::is_same_v<Iface, OtherIface>>>
     SmartPtr(const SmartPtr<OtherIface>& other) noexcept
-        : pointer_(other ? static_cast<Iface*>(other->Query(iidof())) : nullptr) 
+        : pointer_{ other ? static_cast<Iface*>(other->Query(iidof())) : nullptr }
     { }
 
     template<typename OtherIface, typename std::enable_if_t<
         std::is_same_v<Iface, OtherIface> && !std::is_same_v<obj::IObject, OtherIface>, int> = 0>
     explicit SmartPtr(OtherIface* pointer) noexcept
-        : pointer_(pointer)
+        : pointer_{ pointer }
     {
         AcquireInternal();
     }
@@ -54,17 +54,17 @@ public:
     template<typename OtherIface, typename std::enable_if_t<
         !std::is_same_v<Iface, OtherIface> && std::is_base_of_v<obj::IObject, OtherIface>, int> = 0>
     explicit SmartPtr(OtherIface* pointer) noexcept
-        : pointer_(pointer ? static_cast<Iface*>(pointer->Query(iidof())) : nullptr)
+        : pointer_{ pointer ? static_cast<Iface*>(pointer->Query(iidof())) : nullptr }
     { }
 
     SmartPtr(const SmartPtr& other) noexcept
-        : pointer_(other.pointer_)
+        : pointer_{ other.pointer_ }
     {
         AcquireInternal();
     }
 
     SmartPtr(SmartPtr&& other) noexcept
-        : pointer_(std::exchange(other.pointer_, nullptr))
+        : pointer_{ std::exchange(other.pointer_, nullptr) }
     { }
 
     ~SmartPtr()

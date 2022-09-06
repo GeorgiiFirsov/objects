@@ -72,7 +72,7 @@ class Stream
 public:
     static IStreamPtr Create() noexcept
     {
-        return IStreamPtr(obj::hlp::DynamicObject<Stream>::Create());
+        return IStreamPtr{ obj::hlp::DynamicObject<Stream>::Create() };
     }
 
     //
