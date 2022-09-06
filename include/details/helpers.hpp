@@ -136,10 +136,10 @@ class ObjectBase
     //
     // Number of inherited interfaces
     //
-    static constexpr size_t kIfacesCount = \
+    static constexpr std::size_t kIfacesCount = \
         sizeof...(Ifaces) +     /* Variadic pack */
         1 +                     /* First template argument */
-        1;                      /* obj::IObjects */
+        1;                      /* obj::IObject */
 
     //
     // Interface info
