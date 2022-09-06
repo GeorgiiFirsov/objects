@@ -80,13 +80,13 @@ public:
     //
 
     OBJECTS_INTERFACE_METHOD(std::size_t, Read)(unsigned char* buffer,
-        std::size_t buffer_size)
+        std::size_t buffer_size) override
     {
         // Implementation
     }
 
     OBJECTS_INTERFACE_METHOD(void, Write)(const unsigned char* buffer, 
-        std::size_t buffer_size)
+        std::size_t buffer_size) override
     {
         // Implementation
     }
@@ -96,7 +96,7 @@ public:
     //
 
     OBJECTS_INTERFACE_METHOD(void, Seek)(IStream::SeekBase base, 
-        std::ptrdiff_t offset)
+        std::ptrdiff_t offset) override
     {
         // Implementation
     }
