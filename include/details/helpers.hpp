@@ -175,7 +175,7 @@ private:
         // Taken from COM implementation
         //
 
-        static constexpr auto magic = 8;
+        static constexpr std::size_t magic = 8;
         const auto temp = static_cast<Iface2*>(reinterpret_cast<Ty*>(magic));
 
         return reinterpret_cast<unsigned char*>(temp) - reinterpret_cast<unsigned char*>(magic);
