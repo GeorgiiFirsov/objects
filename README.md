@@ -121,7 +121,7 @@ int main()
     //
 
     IStreamPtr stream = Stream::Create();
-    stream->Write(data.data());
+    stream->Write(data.data(), data.size());
 
     //
     // For some purposes we may need to obtain an instance
