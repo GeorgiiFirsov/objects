@@ -18,14 +18,16 @@ namespace details {
 
 
     /**
-     * @brief Atomic reference count helper
+     * @brief Generic implementation of reference counter
      * 
      */
-    class RefCounter final
+    template<typename Counter, typename = 
+        std::enable_if_t<std::is_constructible_v<Counter, ref_t>>>
+    class GenericRefCounter final
     {
     public:
-        explicit RefCounter() noexcept
-            : references_(0)
+        explicit GenericRefCounter(ref_t initial = 0) noexcept
+            : references_(initial)
         { }
 
         ref_t Increment() noexcept { return ++references_; }
@@ -40,6 +42,20 @@ namespace details {
 
 
 /**
+ * @brief Atomic reference count helper
+ * 
+ */
+using AtomicRefCounter = details::GenericRefCounter<std::atomic<details::ref_t>>;
+
+
+/**
+ * @brief Non-atomic reference count helper
+ * 
+ */
+using RefCounter = details::GenericRefCounter<details::ref_t>;
+
+
+/**
  * @brief Helper, that implements default obj::IObject methods
  * and manages reference count for dynamically allocated object. 
  * You need to inherit from it to use its functionality.
@@ -48,7 +64,7 @@ namespace details {
  * @tparam Ty actual type of an object
  * @tparam Rc reference counter type (usually you don't need to override it)
  */
-template<typename Ty, typename Rc = details::RefCounter>
+template<typename Ty, typename Rc = AtomicRefCounter>
 class DynamicObject final
     : public Ty
 {
