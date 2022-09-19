@@ -152,7 +152,6 @@ More examples you can find in so named folder.
 
 These features are in progress. They will be implemented in future releases.
 
-- Non-atomic reference counter
 - Support for automatic objects (with automatic storage duration)
 - Single header generator
 - More examples
