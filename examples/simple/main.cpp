@@ -23,7 +23,7 @@ class Simple1
     , public IHello
 {
 public:
-    static ISimplePtr Create() { return ISimplePtr{ obj::hlp::DynamicObject<Simple1>::Create() }; }
+    static ISimplePtr Create() { return ISimplePtr { obj::hlp::DynamicObject<Simple1>::Create() }; }
 
     //
     // ISimple
@@ -44,7 +44,7 @@ class Simple2
     , public ISimple
 {
 public:
-    static ISimplePtr Create() { return ISimplePtr{ obj::hlp::DynamicObject<Simple2>::Create() }; }
+    static ISimplePtr Create() { return ISimplePtr { obj::hlp::DynamicObject<Simple2>::Create() }; }
 
     //
     // ISimple
@@ -54,7 +54,7 @@ public:
 };
 
 
-int main() 
+int main()
 {
     auto simple1 = Simple1::Create();
     simple1->Greet();
@@ -63,7 +63,7 @@ int main()
     // An object under simple1 implements IHello too,
     // so it is possible to use it via IHello interface.
     //
-    
+
     IHelloPtr hello1 = simple1;
     hello1->Hello();
 

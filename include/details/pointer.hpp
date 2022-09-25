@@ -30,51 +30,48 @@ public:
 
 public:
     SmartPtr() noexcept
-        : pointer_{ nullptr }
-    { }
+        : pointer_ { nullptr }
+    {}
 
     SmartPtr(std::nullptr_t) noexcept
         : SmartPtr()
-    { }
+    {}
 
-    template<typename OtherIface, typename = std::enable_if_t<
-        !std::is_same_v<Iface, OtherIface>>>
+    template<typename OtherIface, typename = std::enable_if_t<!std::is_same_v<Iface, OtherIface>>>
     SmartPtr(const SmartPtr<OtherIface>& other) noexcept
-        : pointer_{ other ? static_cast<Iface*>(other->Query(iidof())) : nullptr }
-    { }
+        : pointer_ { other ? static_cast<Iface*>(other->Query(iidof())) : nullptr }
+    {}
 
-    template<typename OtherIface, typename std::enable_if_t<
-        std::is_same_v<Iface, OtherIface> && !std::is_same_v<obj::IObject, OtherIface>, int> = 0>
+    template<typename OtherIface,
+        typename std::enable_if_t<std::is_same_v<Iface, OtherIface> && !std::is_same_v<obj::IObject, OtherIface>, int> = 0>
     explicit SmartPtr(OtherIface* pointer) noexcept
-        : pointer_{ pointer }
+        : pointer_ { pointer }
     {
         AcquireInternal();
     }
 
-    template<typename OtherIface, typename std::enable_if_t<
-        !std::is_same_v<Iface, OtherIface> && std::is_base_of_v<obj::IObject, OtherIface>, int> = 0>
+    template<typename OtherIface,
+        typename std::enable_if_t<!std::is_same_v<Iface, OtherIface> && std::is_base_of_v<obj::IObject, OtherIface>, int> = 0>
     explicit SmartPtr(OtherIface* pointer) noexcept
-        : pointer_{ pointer ? static_cast<Iface*>(pointer->Query(iidof())) : nullptr }
-    { }
+        : pointer_ { pointer ? static_cast<Iface*>(pointer->Query(iidof())) : nullptr }
+    {}
 
     SmartPtr(const SmartPtr& other) noexcept
-        : pointer_{ other.pointer_ }
+        : pointer_ { other.pointer_ }
     {
         AcquireInternal();
     }
 
     SmartPtr(SmartPtr&& other) noexcept
-        : pointer_{ std::exchange(other.pointer_, nullptr) }
-    { }
+        : pointer_ { std::exchange(other.pointer_, nullptr) }
+    {}
 
-    ~SmartPtr()
-    {
-        ReleaseInternal();
-    }
+    ~SmartPtr() { ReleaseInternal(); }
 
     SmartPtr& operator=(const SmartPtr& other) noexcept
     {
-        if (this == &other || other.pointer_ == pointer_) {
+        if (this == &other || other.pointer_ == pointer_)
+        {
             return *this;
         }
 
@@ -87,7 +84,8 @@ public:
 
     SmartPtr& operator=(SmartPtr&& other) noexcept
     {
-        if (this == &other || other.pointer_ == pointer_) {
+        if (this == &other || other.pointer_ == pointer_)
+        {
             return *this;
         }
 
@@ -99,7 +97,8 @@ public:
 
     SmartPtr& operator=(Iface* other) noexcept
     {
-        if (other == pointer_) {
+        if (other == pointer_)
+        {
             return *this;
         }
 
@@ -111,9 +110,9 @@ public:
     }
 
     Iface* operator->() const
-    { 
+    {
         ValidatePointer("[obj::SmartPtr::operator->]: null interface pointer");
-        return pointer_; 
+        return pointer_;
     }
 
     Iface** operator&() noexcept
@@ -133,49 +132,40 @@ public:
         pointer_ = pointer;
     }
 
-    Iface* Detach() noexcept
-    {
-        return std::exchange(pointer_, nullptr);
-    }
+    Iface* Detach() noexcept { return std::exchange(pointer_, nullptr); }
 
     static constexpr obj::iid_t iidof() noexcept { return obj::iidof<Iface>(); }
 
 private:
     void AcquireInternal() noexcept
     {
-        if (pointer_) {
+        if (pointer_)
+        {
             AcquireUnsafe();
         }
     }
 
-    void AcquireUnsafe() noexcept
-    {
-        pointer_->Acquire();
-    }
+    void AcquireUnsafe() noexcept { pointer_->Acquire(); }
 
     bool ReleaseInternal() noexcept
     {
-        if (pointer_) {
+        if (pointer_)
+        {
             return ReleaseUnsafe();
         }
 
         return false;
     }
 
-    bool ReleaseUnsafe() noexcept
-    {
-        return std::exchange(pointer_, nullptr)->Release();
-    }
+    bool ReleaseUnsafe() noexcept { return std::exchange(pointer_, nullptr)->Release(); }
 
-    IObject* QueryUnsafe(const iid_t target_iid) noexcept
-    {
-        return pointer_->Query(target_iid);
-    }
+    IObject* QueryUnsafe(const iid_t target_iid) noexcept { return pointer_->Query(target_iid); }
 
     void ValidatePointer(const char* error_message) const
     {
-        if (!pointer_) {
-            throw ObjectsException{ error_message };
+        if (!pointer_)
+        {
+            throw ObjectsException { error_message };
         }
     }
 
@@ -184,6 +174,6 @@ private:
     Iface* pointer_;
 };
 
-} // namespace obj
+}  // namespace obj
 
-#endif // !OBJECTS_DETAILS_POINTER_HPP_INCLUDED
+#endif  // !OBJECTS_DETAILS_POINTER_HPP_INCLUDED

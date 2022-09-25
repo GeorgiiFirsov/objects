@@ -9,17 +9,19 @@
  * and prefer OBJECTS_INTERFACE instead. 
  * 
  */
-#define OBJECTS_INTERFACE_INTERNAL(Iface)                               \
-    /* Interface identifier (IID) */                                    \
-    inline constexpr obj::iid_t IID_ ## Iface = #Iface;                 \
-    /* Forward declaration */                                           \
-    struct Iface;                                                       \
-    /* iidof implementation */                                          \
-    inline constexpr obj::iid_t iidof_impl(const Iface*) noexcept       \
-    { return IID_ ## Iface; }                                           \
-    /* Pointer specialisation */                                        \
-    using Iface ## Ptr = obj::SmartPtr<Iface>;                          \
-    /* Interface itself */                                              \
+#define OBJECTS_INTERFACE_INTERNAL(Iface)                         \
+    /* Interface identifier (IID) */                              \
+    inline constexpr obj::iid_t IID_##Iface = #Iface;             \
+    /* Forward declaration */                                     \
+    struct Iface;                                                 \
+    /* iidof implementation */                                    \
+    inline constexpr obj::iid_t iidof_impl(const Iface*) noexcept \
+    {                                                             \
+        return IID_##Iface;                                       \
+    }                                                             \
+    /* Pointer specialisation */                                  \
+    using Iface##Ptr = obj::SmartPtr<Iface>;                      \
+    /* Interface itself */                                        \
     struct Iface
 
 
@@ -34,7 +36,8 @@
  * 
  */
 #define OBJECTS_INTERFACE(Iface, BaseIface) \
-    OBJECTS_INTERFACE_INTERNAL(Iface) : public BaseIface
+    OBJECTS_INTERFACE_INTERNAL(Iface)       \
+        : public BaseIface
 
 
 /**
@@ -108,9 +111,9 @@ OBJECTS_INTERFACE_INTERNAL(IObject)
      * If the interface cannot be queried, return value is zero.
      * 
      */
-    OBJECTS_INTERFACE_METHOD_DECL(obj::IObject*, Query)(const obj::iid_t target_iid) noexcept OBJECTS_PURE; 
+    OBJECTS_INTERFACE_METHOD_DECL(obj::IObject*, Query)(const obj::iid_t target_iid) noexcept OBJECTS_PURE;
 };
 
-} // namespace obj
+}  // namespace obj
 
-#endif // !OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED
+#endif  // !OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED

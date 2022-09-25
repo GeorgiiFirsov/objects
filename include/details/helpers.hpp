@@ -10,35 +10,34 @@ namespace obj {
 namespace hlp {
 namespace details {
 
-    /**
-     * @brief Internal reference counter type
-     * 
-     */
-    using ref_t = size_t;
+/**
+ * @brief Internal reference counter type
+ * 
+ */
+using ref_t = size_t;
 
 
-    /**
-     * @brief Generic implementation of reference counter
-     * 
-     */
-    template<typename Counter, typename = 
-        std::enable_if_t<std::is_constructible_v<Counter, ref_t>>>
-    class GenericRefCounter final
-    {
-    public:
-        explicit GenericRefCounter(ref_t initial = 0) noexcept
-            : references_(initial)
-        { }
+/**
+ * @brief Generic implementation of reference counter
+ * 
+ */
+template<typename Counter, typename = std::enable_if_t<std::is_constructible_v<Counter, ref_t>>>
+class GenericRefCounter final
+{
+public:
+    explicit GenericRefCounter(ref_t initial = 0) noexcept
+        : references_(initial)
+    {}
 
-        ref_t Increment() noexcept { return ++references_; }
+    ref_t Increment() noexcept { return ++references_; }
 
-        ref_t Decrement() noexcept { return --references_; }
+    ref_t Decrement() noexcept { return --references_; }
 
-    private:
-        std::atomic<ref_t> references_;
-    };
+private:
+    std::atomic<ref_t> references_;
+};
 
-} // namespace detais
+}  // namespace details
 
 
 /**
@@ -65,13 +64,12 @@ using RefCounter = details::GenericRefCounter<details::ref_t>;
  * @tparam Rc reference counter type (usually you don't need to override it)
  */
 template<typename Ty, typename Rc = AtomicRefCounter>
-class DynamicObject final
-    : public Ty
+class DynamicObject final : public Ty
 {
     template<typename... Tys>
     explicit DynamicObject(Tys&&... args)
         : Ty(std::forward<Tys>(args)...)
-    { }
+    {}
 
     DynamicObject(const DynamicObject&) = delete;
     DynamicObject& operator=(const DynamicObject&) = delete;
@@ -81,23 +79,20 @@ class DynamicObject final
 
 public:
     template<typename... Tys>
-    static DynamicObject<Ty>* Create(Tys&&... args) 
+    static DynamicObject<Ty>* Create(Tys&&... args)
     {
-        return new DynamicObject<Ty>{ std::forward<Tys>(args)... };
+        return new DynamicObject<Ty> { std::forward<Tys>(args)... };
     }
 
     //
     // obj::IObject
     //
 
-    OBJECTS_INTERFACE_METHOD(void, Acquire)() noexcept override
-    {
-        refcounter_.Increment();
-    }
+    OBJECTS_INTERFACE_METHOD(void, Acquire)() noexcept override { refcounter_.Increment(); }
 
     OBJECTS_INTERFACE_METHOD(bool, Release)() noexcept override
     {
-        if (refcounter_.Decrement()) 
+        if (refcounter_.Decrement())
         {
             //
             // Still valid object
@@ -117,7 +112,7 @@ public:
 
     OBJECTS_INTERFACE_METHOD(obj::IObject*, Query)(const obj::iid_t target_iid) noexcept override
     {
-        if (const auto instance = Ty::QueryInternal(this, target_iid); instance) 
+        if (const auto instance = Ty::QueryInternal(this, target_iid); instance)
         {
             //
             // Interface instance found, so increment reference counter and return pointer
@@ -144,7 +139,7 @@ private:
  * @tparam Ifaces list of all the rest interfaces, that Ty is inherited from
  */
 template<typename Ty, typename Iface, typename... Ifaces>
-class ObjectBase 
+class ObjectBase
 {
     static_assert(!std::disjunction_v<std::is_same<obj::IObject, Iface>, std::is_same<obj::IObject, Ifaces>...>,
         "[ObjectBase]: obj::IObjects should not appear in the list of inherited interfaces");
@@ -152,30 +147,30 @@ class ObjectBase
     //
     // Number of inherited interfaces
     //
-    static constexpr std::size_t kIfacesCount = \
-        sizeof...(Ifaces) +     /* Variadic pack */
-        1 +                     /* First template argument */
-        1;                      /* obj::IObject */
+    static constexpr std::size_t kIfacesCount = sizeof...(Ifaces) + /* Variadic pack */
+                                                1 +                 /* First template argument */
+                                                1;                  /* obj::IObject */
 
     //
     // Interface info
     //
     struct IfaceInfo final
     {
-        obj::iid_t     iid;
+        obj::iid_t iid;
         std::ptrdiff_t offset;
     };
 
 protected:
     virtual ~ObjectBase() = default;
 
-    obj::IObject* QueryInternal(Ty* object, const obj::iid_t target_iid) noexcept 
+    obj::IObject* QueryInternal(Ty* object, const obj::iid_t target_iid) noexcept
     {
         static const auto infos = Initialize();
 
-        for (size_t idx = 0; idx < kIfacesCount; ++idx) 
+        for (size_t idx = 0; idx < kIfacesCount; ++idx)
         {
-            if (0 == std::strcmp(target_iid, infos[idx].iid)) {
+            if (0 == std::strcmp(target_iid, infos[idx].iid))
+            {
                 return IfaceFromOffset(object, infos[idx].offset);
             }
         }
@@ -185,7 +180,7 @@ protected:
 
 private:
     template<typename Iface2>
-    static std::ptrdiff_t Offset() noexcept 
+    static std::ptrdiff_t Offset() noexcept
     {
         //
         // Taken from COM implementation
@@ -197,17 +192,17 @@ private:
         return reinterpret_cast<unsigned char*>(temp) - reinterpret_cast<unsigned char*>(magic);
     }
 
-    static obj::IObject* IfaceFromOffset(Ty* object, std::ptrdiff_t offset) noexcept 
+    static obj::IObject* IfaceFromOffset(Ty* object, std::ptrdiff_t offset) noexcept
     {
         return reinterpret_cast<obj::IObject*>(reinterpret_cast<unsigned char*>(object) + offset);
     }
 
     template<std::size_t IfacesCount>
     static void InitializeImpl(IfaceInfo (&)[IfacesCount]) noexcept
-    { }
+    {}
 
     template<std::size_t IfacesCount, typename Iface2, typename... Ifaces2>
-    static void InitializeImpl(IfaceInfo (& infos)[IfacesCount]) noexcept
+    static void InitializeImpl(IfaceInfo (&infos)[IfacesCount]) noexcept
     {
         infos[kIfacesCount - sizeof...(Ifaces2) - 1] = { obj::iidof<Iface2>(), Offset<Iface2>() };
         InitializeImpl<IfacesCount, Ifaces2...>(infos);
@@ -223,12 +218,12 @@ private:
         //
         infos[0] = { obj::iidof<obj::IObject>(), Offset<Iface>() };
         InitializeImpl<kIfacesCount, Iface, Ifaces...>(infos);
-        
+
         return infos;
     }
 };
 
-} // namespace hlp
-} // namespace obj
+}  // namespace hlp
+}  // namespace obj
 
-#endif // !OBJECTS_DETAILS_HELPERS_HPP_INCLUDED
+#endif  // !OBJECTS_DETAILS_HELPERS_HPP_INCLUDED

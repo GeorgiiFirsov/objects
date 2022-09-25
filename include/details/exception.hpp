@@ -11,8 +11,7 @@ namespace obj {
  * Simply inherits std::runtime_error for now.
  * 
  */
-class ObjectsException
-    : public std::runtime_error
+class ObjectsException : public std::runtime_error
 {
     using MyBase = std::runtime_error;
 
@@ -21,6 +20,6 @@ public:
     using MyBase::what;
 };
 
-} // namespace obj
+}  // namespace obj
 
-#endif // !OBJECTS_DETAILS_EXCEPTION_HPP_INCLUDED
+#endif  // !OBJECTS_DETAILS_EXCEPTION_HPP_INCLUDED

@@ -23,7 +23,7 @@
 //
 #ifndef __cplusplus
 #   error Objects library requires C++ support
-#endif // !__cplusplus
+#endif  // !__cplusplus
 
 
 //
@@ -33,4 +33,4 @@
 #include "details/objects.hpp"
 #include "details/helpers.hpp"
 
-#endif // !OBJECTS_HPP_INCLUDED
+#endif  // !OBJECTS_HPP_INCLUDED

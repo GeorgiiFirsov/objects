@@ -24,15 +24,15 @@ using iid_t = const char*;
  * 
  */
 template<typename Iface>
-inline constexpr iid_t iidof() noexcept 
+inline constexpr iid_t iidof() noexcept
 {
     //
     // Just call an implementation. It will be found via ADL.
     //
 
-    return iidof_impl(static_cast<const Iface *>(nullptr));
+    return iidof_impl(static_cast<const Iface*>(nullptr));
 }
 
-} // namespace obj
+}  // namespace obj
 
-#endif // !OBJECTS_DETAILS_COMMON_HPP_INCLUDED
+#endif  // !OBJECTS_DETAILS_COMMON_HPP_INCLUDED

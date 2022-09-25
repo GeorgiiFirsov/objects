@@ -1,6 +1,7 @@
 # Hidden items
 .*
 !/.gitignore
+!/.clang-format
 
 # Some files with known names
 .DS_Store
