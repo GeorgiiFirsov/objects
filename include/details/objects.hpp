@@ -9,20 +9,20 @@
  * and prefer OBJECTS_INTERFACE instead. 
  * 
  */
-#define OBJECTS_INTERFACE_INTERNAL(Iface)                         \
-    /* Interface identifier (IID) */                              \
-    inline constexpr obj::iid_t IID_##Iface = #Iface;             \
-    /* Forward declaration */                                     \
-    struct Iface;                                                 \
-    /* iidof implementation */                                    \
-    inline constexpr obj::iid_t iidof_impl(const Iface*) noexcept \
-    {                                                             \
-        return IID_##Iface;                                       \
-    }                                                             \
-    /* Pointer specialisation */                                  \
-    using Iface##Ptr = obj::SmartPtr<Iface>;                      \
-    /* Interface itself */                                        \
-    struct Iface
+#define OBJECTS_INTERFACE_INTERNAL(Iface)                        \
+   /* Interface identifier (IID) */                              \
+   inline constexpr obj::iid_t IID_##Iface = #Iface;             \
+   /* Forward declaration */                                     \
+   struct Iface;                                                 \
+   /* iidof implementation */                                    \
+   inline constexpr obj::iid_t iidof_impl(const Iface*) noexcept \
+   {                                                             \
+      return IID_##Iface;                                        \
+   }                                                             \
+   /* Pointer specialisation */                                  \
+   using Iface##Ptr = obj::SmartPtr<Iface>;                      \
+   /* Interface itself */                                        \
+   struct Iface
 
 
 /**
@@ -36,8 +36,8 @@
  * 
  */
 #define OBJECTS_INTERFACE(Iface, BaseIface) \
-    OBJECTS_INTERFACE_INTERNAL(Iface)       \
-        : public BaseIface
+   OBJECTS_INTERFACE_INTERNAL(Iface)        \
+       : public BaseIface
 
 
 /**

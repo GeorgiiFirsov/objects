@@ -27,7 +27,7 @@ class GenericRefCounter final
 public:
     explicit GenericRefCounter(ref_t initial = 0) noexcept
         : references_(initial)
-    {}
+    { }
 
     ref_t Increment() noexcept { return ++references_; }
 
@@ -69,7 +69,7 @@ class DynamicObject final : public Ty
     template<typename... Tys>
     explicit DynamicObject(Tys&&... args)
         : Ty(std::forward<Tys>(args)...)
-    {}
+    { }
 
     DynamicObject(const DynamicObject&) = delete;
     DynamicObject& operator=(const DynamicObject&) = delete;
@@ -199,7 +199,7 @@ private:
 
     template<std::size_t IfacesCount>
     static void InitializeImpl(IfaceInfo (&)[IfacesCount]) noexcept
-    {}
+    { }
 
     template<std::size_t IfacesCount, typename Iface2, typename... Ifaces2>
     static void InitializeImpl(IfaceInfo (&infos)[IfacesCount]) noexcept
