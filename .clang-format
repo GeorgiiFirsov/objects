@@ -91,7 +91,7 @@ IndentWrappedFunctionNames: false
 
 # Warning
 # Setting this option to true could lead to incorrect code formatting 
-# due to clang-format’s lack of complete semantic information. As such, 
+# due to clang-format's lack of complete semantic information. As such, 
 # extra care should be taken to review code changes made by this option.
 InsertBraces: false
 
