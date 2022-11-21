@@ -7,7 +7,7 @@ AccessModifierOffset: -4
 
 AlignAfterOpenBracket: DontAlign
 AlignArrayOfStructures: Left
-AlignConsecutiveAssignments: false
+AlignConsecutiveAssignments: true
 AlignEscapedNewlines: Left
 AlignOperands: AlignAfterOperator
 AlignTrailingComments: true
@@ -105,8 +105,8 @@ NamespaceIndentation: None
 
 PPIndentWidth: 3
 
-PenaltyBreakAssignment: 8
-#PenaltyBreakBeforeFirstCallParameter: 
+PenaltyBreakAssignment: 50
+PenaltyBreakBeforeFirstCallParameter: 50
 #PenaltyBreakComment: 
 #PenaltyBreakFirstLessLess: 
 PenaltyBreakOpenParenthesis: 8

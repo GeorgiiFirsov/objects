@@ -71,10 +71,10 @@ class DynamicObject final : public Ty
         : Ty(std::forward<Tys>(args)...)
     { }
 
-    DynamicObject(const DynamicObject&) = delete;
+    DynamicObject(const DynamicObject&)            = delete;
     DynamicObject& operator=(const DynamicObject&) = delete;
 
-    DynamicObject(DynamicObject&&) = delete;
+    DynamicObject(DynamicObject&&)            = delete;
     DynamicObject& operator=(DynamicObject&&) = delete;
 
 public:
@@ -187,7 +187,7 @@ private:
         //
 
         static constexpr std::size_t magic = 8;
-        const auto temp = static_cast<Iface2*>(reinterpret_cast<Ty*>(magic));
+        const auto temp                    = static_cast<Iface2*>(reinterpret_cast<Ty*>(magic));
 
         return reinterpret_cast<unsigned char*>(temp) - reinterpret_cast<unsigned char*>(magic);
     }
