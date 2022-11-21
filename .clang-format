@@ -62,6 +62,8 @@ BreakConstructorInitializers: BeforeComma
 BreakInheritanceList: BeforeComma
 BreakStringLiterals: true
 
+ColumnLimit: 160
+
 CompactNamespaces: false
 
 ConstructorInitializerIndentWidth: 4
