@@ -9,7 +9,6 @@ namespace obj {
 /**
  * @brief Custom exception type used in the library
  * Simply inherits std::runtime_error for now.
- * 
  */
 class ObjectsException : public std::runtime_error
 {

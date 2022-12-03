@@ -12,14 +12,12 @@ namespace details {
 
 /**
  * @brief Internal reference counter type
- * 
  */
 using ref_t = size_t;
 
 
 /**
  * @brief Generic implementation of reference counter
- * 
  */
 template<typename Counter, typename = std::enable_if_t<std::is_constructible_v<Counter, ref_t>>>
 class GenericRefCounter final
@@ -42,14 +40,12 @@ private:
 
 /**
  * @brief Atomic reference count helper
- * 
  */
 using AtomicRefCounter = details::GenericRefCounter<std::atomic<details::ref_t>>;
 
 
 /**
  * @brief Non-atomic reference count helper
- * 
  */
 using RefCounter = details::GenericRefCounter<details::ref_t>;
 

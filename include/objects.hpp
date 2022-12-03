@@ -1,21 +1,14 @@
 /**
  * @file objects.hpp
- * @author Georgy Firsov (gfirsov007@gmail.com)
  * @brief Main header file of the library (you should include this file instead of separate headers)
- * @version 0.1
- * @date 2022-08-28
+ * 
+ * @author Georgy Firsov (gfirsov007@gmail.com)
  * 
  * @copyright Copyright (c) Georgy Firsov 2022
  */
 
 #ifndef OBJECTS_HPP_INCLUDED
 #define OBJECTS_HPP_INCLUDED
-
-//
-// Library version
-//
-#define OBJECTS_VERSION_MAJOR 0
-#define OBJECTS_VERSION_MINOR 1
 
 
 //

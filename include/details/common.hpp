@@ -7,7 +7,6 @@ namespace obj {
 /**
  * @brief Interface identifier type. Actually interface 
  * identifier is just its name.
- * 
  */
 using iid_t = const char*;
 
@@ -20,8 +19,7 @@ using iid_t = const char*;
  * and some other operators.
  * 
  * @tparam iface Interface which identifier to return of
- * @return iid_t Interface identifier
- * 
+ * @returns iid_t Interface identifier
  */
 template<typename Iface>
 inline constexpr iid_t iidof() noexcept
