@@ -7,11 +7,11 @@ project(examples VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 
 #
-# Directory with Objects library
+# Some common paths 
 #
-set(OBJECTS_DIRECTORY ../../include)
-set(COMMON_INCLUDE_DIRECTORIES ${OBJECTS_DIRECTORY})
-set(COMMON_HEADER_FILES ${OBJECTS_DIRECTORY}/objects.hpp)
+set(OBJECTS_EXAMPLES_ROOT                       ${OBJECTS_ROOT}/examples)
+set(OBJECTS_EXAMPLES_COMMON_INCLUDE_DIRECTORIES ${OBJECTS_GENERIC_INCLUDE_DIRECTORIES})
+set(OBJECTS_EXAMPLES_COMMON_HEADER_FILES        ${OBJECTS_LIB_INCLUDE}/objects.hpp)
 
 #
 # List of executables
