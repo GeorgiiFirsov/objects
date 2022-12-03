@@ -1,10 +1,10 @@
-# `Objects`
+# `objects`
 
 COM-inspired, lightweight object management framework for C++17 and later.
 
 ## Installation
 
-`Objects` is header-only framework, so you can just clone this repository
+`objects` is header-only framework, so you can just clone this repository
 and include the framework as follows:
 
 ```cpp
