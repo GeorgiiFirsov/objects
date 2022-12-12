@@ -1,4 +1,4 @@
-# `objects`
+# objects
 
 COM-inspired, lightweight object management framework for C++17 and later.
 
