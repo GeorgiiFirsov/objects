@@ -5,6 +5,7 @@
 
 # Some files with known names
 .DS_Store
+Doxyfile
 
 # Some directories
 .vscode
