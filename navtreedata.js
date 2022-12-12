@@ -25,11 +25,9 @@
 var NAVTREE =
 [
   [ "objects", "index.html", [
-    [ "<tt>objects</tt>", "index.html", [
-      [ "Installation", "index.html#autotoc_md1", null ],
-      [ "Example", "index.html#autotoc_md2", null ],
-      [ "TODO", "index.html#autotoc_md3", null ]
-    ] ],
+    [ "Installation", "index.html#autotoc_md1", null ],
+    [ "Example", "index.html#autotoc_md2", null ],
+    [ "TODO", "index.html#autotoc_md3", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],

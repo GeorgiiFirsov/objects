@@ -1,9 +1,9 @@
 var indexSectionsWithContent =
 {
-  0: "<dgos",
+  0: "dgos",
   1: "dgos",
   2: "o",
-  3: "<"
+  3: "o"
 };
 
 var indexSectionNames =
