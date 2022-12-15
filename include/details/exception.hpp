@@ -1,3 +1,8 @@
+/**
+ * @file exception.hpp
+ * @brief Implementation of custom exception class.
+ */
+
 #ifndef OBJECTS_DETAILS_EXCEPTION_HPP_INCLUDED
 #define OBJECTS_DETAILS_EXCEPTION_HPP_INCLUDED
 
@@ -7,7 +12,8 @@
 namespace obj {
 
 /**
- * @brief Custom exception type used in the library
+ * @brief Custom exception type used in the library.
+ * 
  * Simply inherits std::runtime_error for now.
  */
 class ObjectsException : public std::runtime_error

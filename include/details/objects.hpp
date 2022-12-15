@@ -1,3 +1,8 @@
+/**
+ * @file objects.hpp
+ * @brief Basic inteface and helper macros definition.
+ */
+
 #ifndef OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED
 #define OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED
 
@@ -108,7 +113,6 @@ OBJECTS_INTERFACE_INTERNAL(IObject)
      * 
      * @returns IObject* pointer to the requested interface. 
      * If the interface cannot be queried, return value is zero.
-     * 
      */
     OBJECTS_INTERFACE_METHOD_DECL(obj::IObject*, Query)(const obj::iid_t target_iid) noexcept OBJECTS_PURE;
 };
