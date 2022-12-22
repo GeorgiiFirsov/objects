@@ -7,6 +7,7 @@
 #define OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED
 
 #include "common.hpp"
+#include "pointer.hpp"
 
 
 /**
@@ -73,7 +74,7 @@
  * @brief Auxilary macro, that says, that interface method is pure.
  * 
  * Note: all interface methods must be pure.
- * You are free to write "= 0" instead of OBJECTS_PURE.
+ * You are free to write `= 0` instead of `OBJECTS_PURE`.
  */
 #define OBJECTS_PURE = 0
 
