@@ -1,3 +1,8 @@
+/**
+ * @file common.hpp
+ * @brief Definition of common types and functions.
+ */
+
 #ifndef OBJECTS_DETAILS_COMMON_HPP_INCLUDED
 #define OBJECTS_DETAILS_COMMON_HPP_INCLUDED
 
@@ -5,8 +10,9 @@
 namespace obj {
 
 /**
- * @brief Interface identifier type. Actually interface 
- * identifier is just its name.
+ * @brief Interface identifier type. 
+ * 
+ * Actually interface identifier is just its name.
  */
 using iid_t = const char*;
 
@@ -18,8 +24,8 @@ using iid_t = const char*;
  * naming convention to be more consistent with sizeof, __uuidof
  * and some other operators.
  * 
- * @tparam iface Interface which identifier to return of
- * @returns iid_t Interface identifier
+ * @tparam iface Interface which identifier to return of.
+ * @returns Interface identifier.
  */
 template<typename Iface>
 inline constexpr iid_t iidof() noexcept

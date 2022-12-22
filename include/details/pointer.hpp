@@ -1,3 +1,8 @@
+/**
+ * @file pointer.hpp
+ * @brief Smart-pointer implementation, that wraps pointers to interfaces.
+ */
+
 #ifndef OBJECTS_DETAILS_POINTER_HPP_INCLUDED
 #define OBJECTS_DETAILS_POINTER_HPP_INCLUDED
 

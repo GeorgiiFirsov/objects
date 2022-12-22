@@ -1,3 +1,8 @@
+/**
+ * @file helpers.hpp
+ * @brief Implementation of basic classes for interfaces implementation.
+ */
+
 #ifndef OBJECTS_DETAILS_HELPERS_HPP_INCLUDED
 #define OBJECTS_DETAILS_HELPERS_HPP_INCLUDED
 
@@ -74,6 +79,9 @@ class DynamicObject final : public Ty
     DynamicObject& operator=(DynamicObject&&) = delete;
 
 public:
+    /**
+     * @brief
+     */
     template<typename... Tys>
     static DynamicObject<Ty>* Create(Tys&&... args)
     {
@@ -84,8 +92,14 @@ public:
     // obj::IObject
     //
 
+    /**
+     * @brief
+     */
     OBJECTS_INTERFACE_METHOD(void, Acquire)() noexcept override { refcounter_.Increment(); }
 
+    /**
+     * @brief
+     */
     OBJECTS_INTERFACE_METHOD(bool, Release)() noexcept override
     {
         if (refcounter_.Decrement())
@@ -100,12 +114,15 @@ public:
         delete this;
 
         //
-        // Now object is invalid
+        // Now object is invalid, hence return false
         //
 
         return false;
     }
 
+    /**
+     * @brief
+     */
     OBJECTS_INTERFACE_METHOD(obj::IObject*, Query)(const obj::iid_t target_iid) noexcept override
     {
         if (const auto instance = Ty::QueryInternal(this, target_iid); instance)

@@ -1,7 +1,13 @@
+/**
+ * @file objects.hpp
+ * @brief Basic inteface and helper macros definition.
+ */
+
 #ifndef OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED
 #define OBJECTS_DETAILS_OBJECTS_HPP_INCLUDED
 
 #include "common.hpp"
+#include "pointer.hpp"
 
 
 /**
@@ -68,7 +74,7 @@
  * @brief Auxilary macro, that says, that interface method is pure.
  * 
  * Note: all interface methods must be pure.
- * You are free to write "= 0" instead of OBJECTS_PURE.
+ * You are free to write `= 0` instead of `OBJECTS_PURE`.
  */
 #define OBJECTS_PURE = 0
 
@@ -108,7 +114,6 @@ OBJECTS_INTERFACE_INTERNAL(IObject)
      * 
      * @returns IObject* pointer to the requested interface. 
      * If the interface cannot be queried, return value is zero.
-     * 
      */
     OBJECTS_INTERFACE_METHOD_DECL(obj::IObject*, Query)(const obj::iid_t target_iid) noexcept OBJECTS_PURE;
 };
